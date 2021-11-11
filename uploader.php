@@ -23,9 +23,9 @@ function DatedFileName($length) {
     return $name;
 }
 
-if (!isset($_POST['key']) && $_POST['key'] != $key) {
-    http_response_code(404);
-    die 'Error, wrong key value, info at contact@ant0ine64.fr';
+if (!isset($_POST['key']) || $_POST['key'] != $key) {
+    http_response_code(403);
+    die('Error, wrong key value, info at contact@ant0ine64.fr');
 }
 
 $target_file = $_FILES["image"]["name"];
@@ -50,10 +50,10 @@ if (in_array(strtolower($fileType), $image_extensions)) {
     }
 }
 
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $storage_path . $filename.'.'.$fileType)) {
-            echo $domain_url.$filename.'.'.$fileType;
-        } else{
-	http_response_code(404);
-        echo 'File upload failed : File too big ? info at contact@ant0ine64.fr';
-        }
+if (move_uploaded_file($_FILES["image"]["tmp_name"], $storage_path . $filename.'.'.$fileType)) {
+    echo $domain_url.$filename.'.'.$fileType;
+} else {
+	http_response_code(500);
+    echo 'File upload failed : File too big ? Permissions error ?';
+}
 ?>
