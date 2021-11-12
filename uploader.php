@@ -14,12 +14,16 @@ function RandomString($length) {
     return $uid;
 }
 
-function DatedFileName($length) {
+function CreateDir() {
     global $storage_path;
-    $uid = RandomString($length);
     $dir = date('Y/m/d/');
     mkdir($storage_path . $dir, 0755, true);
-    $name = $dir . $uid;
+    return $dir;
+}
+
+function DatedFileName($length) {
+    $uid = RandomString($length);
+    $name = CreateDir() . $uid;
     return $name;
 }
 
